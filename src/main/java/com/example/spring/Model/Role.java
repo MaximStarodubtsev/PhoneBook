@@ -1,10 +1,8 @@
 package com.example.spring.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.ManyToAny;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -28,8 +26,8 @@ public class Role {
     @Column
     private String name;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(name = "employee_role",
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "employees_roles", schema = "phonebook",
             joinColumns = { @JoinColumn(name = "role_id") },
             inverseJoinColumns = { @JoinColumn(name = "employee_id") }
     )

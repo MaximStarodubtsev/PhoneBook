@@ -35,10 +35,10 @@ CREATE TABLE roles
     name VARCHAR(136)
 );
 
-CREATE TABLE employee_role
+CREATE TABLE employees_roles
 (
-    id BIGSERIAL PRIMARY KEY,
-    employee_id BIGSERIAL REFERENCES employees(id),
-    role_id BIGSERIAL REFERENCES roles(id)
+    employee_id BIGSERIAL REFERENCES employees(id) NOT NULL ,
+    role_id BIGSERIAL REFERENCES roles(id) NOT NULL ,
+    PRIMARY KEY (employee_id, role_id)
 );
 

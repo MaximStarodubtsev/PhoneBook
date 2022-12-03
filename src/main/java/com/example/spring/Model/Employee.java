@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ManyToAny;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -35,7 +36,7 @@ public class Employee {
     @Column
     private String phonenumber;
 
-    @ManyToOne(targetEntity = Department.class, fetch = FetchType.LAZY)
+    @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
 
@@ -43,6 +44,6 @@ public class Employee {
     @JoinColumn(name = "pc_id")
     private PC pc;
 
-    @ManyToMany(mappedBy = "employees")
+    @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY)
     List<Role> roles = new ArrayList<>();
 }

@@ -8,6 +8,7 @@ import com.example.spring.Service.DepartmentService;
 import com.example.spring.Service.EmployeeService;
 import com.example.spring.Service.PCService;
 import com.example.spring.Service.RoleService;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ import java.util.List;
 @Transactional
 class PhoneBookApplicationTests {
 
+    private final EntityManager entityManager;
 	private final DepartmentService departmentService;
 	private final RoleService roleService;
 	private final EmployeeService employeeService;
@@ -37,6 +39,12 @@ class PhoneBookApplicationTests {
 		departmentService.saveAndFlush(department);
 		Assertions.assertTrue(departmentService.findByName("HRDepartment").isPresent());
 	}
+
+	@Test
+	void testFindingADepartment() {
+		Assertions.assertTrue(departmentService.findByName("HRDepartment").isPresent());
+	}
+
 
 	@Test
 	void testAddingARole() {
@@ -87,7 +95,7 @@ class PhoneBookApplicationTests {
 						.phonenumber("+375297777777")
 						.gender("MALE")
 						.department(department)
-						.roles(List.of(role))
+						.roles(List.of(roleService.findByName("ADMIN").get()))
 						.pc(pcService.findByInvNum("1111").get())
 						.build();
 
