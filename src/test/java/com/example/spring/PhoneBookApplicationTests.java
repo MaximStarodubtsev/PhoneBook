@@ -23,8 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 class PhoneBookApplicationTests {
-
-    private final EntityManager entityManager;
 	private final DepartmentService departmentService;
 	private final RoleService roleService;
 	private final EmployeeService employeeService;

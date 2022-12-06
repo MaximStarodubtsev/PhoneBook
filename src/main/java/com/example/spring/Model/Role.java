@@ -12,6 +12,8 @@ import java.util.List;
 
 @Entity
 @Component
+@ToString(exclude = "employees")
+@EqualsAndHashCode(of = "name")
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 @Data
 @Builder
@@ -26,10 +28,7 @@ public class Role {
     @Column
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "employees_roles", schema = "phonebook",
-            joinColumns = { @JoinColumn(name = "role_id") },
-            inverseJoinColumns = { @JoinColumn(name = "employee_id") }
-    )
+    @Builder.Default
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
     List<Employee> employees = new ArrayList<>();
 }

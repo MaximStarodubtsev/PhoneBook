@@ -1,10 +1,7 @@
 package com.example.spring.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ManyToAny;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -14,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Component
+@ToString(exclude = "roles")
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 @Data
 @Builder
@@ -44,6 +42,15 @@ public class Employee {
     @JoinColumn(name = "pc_id")
     private PC pc;
 
-    @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY)
+    @Builder.Default
+    @ManyToMany( fetch = FetchType.LAZY)
+    @JoinTable(name = "employees_roles", schema = "phonebook",
+            joinColumns = { @JoinColumn(name = "role_id") },
+            inverseJoinColumns = { @JoinColumn(name = "employee_id") })
     List<Role> roles = new ArrayList<>();
+
+    public void addRole(Role role){
+        roles.add(role);
+        role.getEmployees().add(this);
+    }
 }
