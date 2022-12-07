@@ -31,74 +31,25 @@ class PhoneBookApplicationTests {
 	@Test
 	void testAddingADepartment() {
 		Department department = Department.builder()
-				.name("HRDepartment")
+				.name("FinanceDepartment")
 				.build();
 
 		departmentService.saveAndFlush(department);
-		Assertions.assertTrue(departmentService.findByName("HRDepartment").isPresent());
-	}
-
-	@Test
-	void testFindingADepartment() {
-		Assertions.assertTrue(departmentService.findByName("HRDepartment").isPresent());
-	}
-
-
-	@Test
-	void testAddingARole() {
-		Role role = Role.builder()
-				.name("ADMIN")
-				.build();
-
-		roleService.saveAndFlush(role);
-		Assertions.assertTrue(roleService.findByName("ADMIN").isPresent());
+		Assertions.assertTrue(departmentService.findByName("FinanceDepartment").isPresent());
 	}
 
 	@Test
 	void testAddingAPC(){
 		PC pc = PC.builder()
-				.model("Acer")
+				.model("MacBook")
 				.ram("4GB")
 				.hdd("5TB")
-				.inventorynumber("1111")
+				.inventorynumber("3")
 				.build();
 
 		pcService.saveAndFlush(pc);
-		Assertions.assertTrue(pcService.findByInvNum("1111").isPresent());
+		Assertions.assertTrue(pcService.findByInvNum("3").isPresent());
 	}
 
-
-	@Test
-	void testAddingAnEmployee() {
-		Department department = Department.builder()
-				.name("HRDepartment")
-				.build();
-		departmentService.saveAndFlush(department);
-		Role role = Role.builder()
-				.name("ADMIN")
-				.build();
-		roleService.saveAndFlush(role);
-		PC pc = PC.builder()
-				.model("Acer")
-				.ram("4GB")
-				.hdd("5TB")
-				.inventorynumber("1111")
-				.build();
-		pcService.saveAndFlush(pc);
-
-		Employee employee = Employee.builder()
-						.firstname("Ivan")
-						.patronymicname("Ivanovich")
-						.lastname("Ivanov")
-						.phonenumber("+375297777777")
-						.gender("MALE")
-						.department(department)
-						.roles(List.of(roleService.findByName("ADMIN").get()))
-						.pc(pcService.findByInvNum("1111").get())
-						.build();
-
-		employeeService.saveOrUpdate(employee);
-		Assertions.assertTrue(employeeService.findByPhone("+375297777777").isPresent());
-	}
 
 }

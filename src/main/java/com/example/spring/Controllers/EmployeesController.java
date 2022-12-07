@@ -9,6 +9,7 @@ import com.example.spring.Service.DepartmentService;
 import com.example.spring.Service.EmployeeService;
 import com.example.spring.Service.PCService;
 import com.example.spring.Service.RoleService;
+import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class EmployeesController {
     private final RoleService roleService;
 
     @GetMapping("/{page}")
-    public Object gettingEmployees(@PathVariable("page") int page){
+    public Object gettingEmployees(@PathVariable("page") @Min(0) @Max(Integer.MAX_VALUE) int page){
         try {
             Pageable pageable = PageRequest.of(page, 2);
             List<EmployeeDTO> list = employeeService.findPage(pageable);
@@ -42,14 +43,14 @@ public class EmployeesController {
     }
 
     @GetMapping("/add/{firstName}/{lastName}/{patName}/{gender}/{phoneNum}/{depName}/{pcInvNum}/{roleName}")
-    public String addingEmployee(@PathVariable("firstName") String firstName,
-                               @PathVariable("lastName") String lastName,
-                               @PathVariable("patName") String patName,
-                               @PathVariable("gender") String gender,
-                               @PathVariable("phoneNum") String phoneNum,
-                               @PathVariable("depName") String depName,
-                               @PathVariable("pcInvNum") String pcInvNum,
-                               @PathVariable("roleName") String roleName)
+    public String addingEmployee(@PathVariable("firstName") @Size(max=136) String firstName,
+                               @PathVariable("lastName") @Size(max=136) String lastName,
+                               @PathVariable("patName") @Size(max=136) String patName,
+                               @PathVariable("gender") @Size(max=136) String gender,
+                               @PathVariable("phoneNum") @Size(max=136) @NotEmpty @NotNull String phoneNum,
+                               @PathVariable("depName")  String depName,
+                               @PathVariable("pcInvNum")  String pcInvNum,
+                               @PathVariable("roleName")  String roleName)
     {
         try {
             Optional<Department> department = departmentService.findByName(depName);
@@ -77,7 +78,7 @@ public class EmployeesController {
     }
 
     @DeleteMapping("/delete/{phoneNum}")
-    public String deletingEmployee(@PathVariable("phoneNum") String phoneNum){
+    public String deletingEmployee(@PathVariable("phoneNum") @Size(max=136) @NotEmpty @NotNull String phoneNum){
         try {
             employeeService.delete(phoneNum);
             return "";

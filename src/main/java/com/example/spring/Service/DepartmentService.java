@@ -4,6 +4,7 @@ import com.example.spring.DAO.DepartmentRepository;
 import com.example.spring.DTO.DepartmentDTO;
 import com.example.spring.DTO.MapperDTO;
 import com.example.spring.Model.Department;
+import jakarta.persistence.UniqueConstraint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

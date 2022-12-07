@@ -1,3 +1,7 @@
+--liquibase formatted sql
+-- changeSet Maksim Starodubtsev:1
+SET search_path = "phonebook";
+
 CREATE TABLE IF NOT EXISTS departments
 (
     id BIGSERIAL PRIMARY KEY,
@@ -38,6 +42,7 @@ CREATE TABLE IF NOT EXISTS employees_roles
     PRIMARY KEY (employee_id, role_id)
 );
 
+-- changeSet Maksim Starodubtsev:2
 INSERT INTO PCs(model, HDD, RAM, inventoryNumber) VALUES
     ('Acer', null, null, 1),
     ('Lenovo', null, null, 2);

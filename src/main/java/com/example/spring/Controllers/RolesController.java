@@ -3,6 +3,7 @@ package com.example.spring.Controllers;
 import com.example.spring.DTO.RoleDTO;
 import com.example.spring.Model.Role;
 import com.example.spring.Service.RoleService;
+import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,7 @@ public class RolesController {
     private final RoleService roleService;
 
     @GetMapping("/{page}")
-    public Object gettingPage(@PathVariable("page") int page){
+    public Object gettingPage(@PathVariable("page") @Min(0) @Max(Integer.MAX_VALUE)  int page){
         try {
             Pageable pageable = PageRequest.of(page, 2);
             List<RoleDTO> list = roleService.findPage(pageable);
@@ -32,7 +33,7 @@ public class RolesController {
     }
 
     @GetMapping("/add/{name}")
-    public String addingRole (@PathVariable("name") String name){
+    public String addingRole (@PathVariable("name") @Size(max=136) @NotNull @NotEmpty String name){
         try {
             roleService.saveAndFlush(Role.builder().name(name).build());
             return "";
@@ -42,7 +43,7 @@ public class RolesController {
     }
 
     @DeleteMapping("/delete/{name}")
-    public String deletingRole(@PathVariable("name") String name){
+    public String deletingRole(@PathVariable("name") @Size(max=136) @NotNull @NotEmpty String name){
         try {
             roleService.delete(name);
             return "";

@@ -3,6 +3,7 @@ package com.example.spring.Controllers;
 import com.example.spring.DTO.PCDTO;
 import com.example.spring.Model.PC;
 import com.example.spring.Service.PCService;
+import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,7 @@ public class PCsController {
     private final PCService pcService;
 
     @GetMapping("/{id}")
-    public Object gettingPage(@PathVariable("id") int id){
+    public Object gettingPage(@PathVariable("id") @Min(0) @Max(Integer.MAX_VALUE) int id){
         try {
             Pageable page = PageRequest.of(id, 2);
             List<PCDTO> list = pcService.findPage(page);
@@ -32,10 +33,10 @@ public class PCsController {
     }
 
     @GetMapping("/add/{model}/{HDD}/{RAM}/{invNum}")
-    public String addingPC(@PathVariable("model") String model,
-                         @PathVariable("HDD") String HDD,
-                         @PathVariable("RAM") String RAM,
-                         @PathVariable("invNum") String invNum){
+    public String addingPC(@PathVariable("model") @Size(max=136) String model,
+                         @PathVariable("HDD") @Size(max=136) String HDD,
+                         @PathVariable("RAM") @Size(max=136) String RAM,
+                         @PathVariable("invNum") @Size(max=136) @NotNull @NotEmpty String invNum){
         try {
             pcService.saveAndFlush(PC.builder()
                     .model(model)
@@ -50,7 +51,7 @@ public class PCsController {
     }
 
     @DeleteMapping("/delete/{invNum}")
-    public String deletingPC(@PathVariable("invNum") String invNum){
+    public String deletingPC(@PathVariable("invNum") @Size(max=136) @NotNull @NotEmpty String invNum){
         try {
             pcService.deleteByInvNum(invNum);
             return "";
