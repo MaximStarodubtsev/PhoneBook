@@ -47,8 +47,8 @@ public class Employee {
     @Builder.Default
     @ManyToMany( fetch = FetchType.LAZY)
     @JoinTable(name = "employees_roles", schema = "phonebook",
-            joinColumns = { @JoinColumn(name = "role_id") },
-            inverseJoinColumns = { @JoinColumn(name = "employee_id") })
+            joinColumns = { @JoinColumn(name = "employee_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") })
     List<Role> roles = new ArrayList<>();
 
     public void addRole(Role role){
