@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +32,7 @@ public class EmployeesController {
     private final DepartmentService departmentService;
     private final PCService pcService;
     private final RoleService roleService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/{page}")
     public Object gettingEmployees(@PathVariable("page") @Min(0) @Max(Integer.MAX_VALUE) int page){
@@ -42,10 +45,11 @@ public class EmployeesController {
         }
     }
 
-    @GetMapping("/add/{firstName}/{lastName}/{patName}/{gender}/{phoneNum}/{depName}/{pcInvNum}/{roleName}")
+    @GetMapping("/registration/{firstName}/{lastName}/{patName}/{password}/{gender}/{phoneNum}/{depName}/{pcInvNum}/{roleName}")
     public String addingEmployee(@PathVariable("firstName") @Size(max=136) String firstName,
                                @PathVariable("lastName") @Size(max=136) String lastName,
                                @PathVariable("patName") @Size(max=136) String patName,
+                               @PathVariable("password") @Size(max=136) @NotEmpty @NotNull String password,
                                @PathVariable("gender") @Size(max=136) String gender,
                                @PathVariable("phoneNum") @Size(max=136) @NotEmpty @NotNull String phoneNum,
                                @PathVariable("depName")  String depName,
@@ -56,10 +60,12 @@ public class EmployeesController {
             Optional<Department> department = departmentService.findByName(depName);
             Optional<PC> pc = pcService.findByInvNum(pcInvNum);
             Optional<Role> role = roleService.findByName(roleName);
-            if (department.isPresent() && pc.isPresent() && role.isPresent()) {
+            if (department.isPresent() && pc.isPresent() && role.isPresent() ) {
+                password = passwordEncoder.encode(password);
                 Employee employee = Employee.builder()
                         .firstname(firstName)
                         .lastname(lastName)
+                        .password(password)
                         .patronymicname(patName)
                         .gender(gender)
                         .phonenumber(phoneNum)

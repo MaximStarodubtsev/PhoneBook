@@ -1,6 +1,6 @@
 --liquibase formatted sql
 -- changeSet Maksim Starodubtsev:1
-SET search_path = "phonebook";
+SET search_path = phonebook;
 
 CREATE TABLE IF NOT EXISTS departments
 (
@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS employees
 (
     id BIGSERIAL PRIMARY KEY,
     firstName VARCHAR(136),
+    password VARCHAR(136) DEFAULT '$2a$04$QQ.TUVpwMu4Qt9rzR65CButXN7UQHiiHJ.zFBmVPYvqtmnVoaP6pS',
     lastName VARCHAR(136),
     patronymicName VARCHAR(136),
     gender VARCHAR(136),
@@ -55,13 +56,13 @@ INSERT INTO departments(name) VALUES
                                   ('HRDepartment'),
                                   ('ProgrammerDepartment');
 
-INSERT INTO employees(firstName, phoneNumber, department_id, pc_id)
-SELECT 'Ivan', '+375297777777', a.id, b.id
+INSERT INTO employees(firstName, password, phoneNumber, department_id, pc_id)
+SELECT 'Ivan', '$2a$04$QQ.TUVpwMu4Qt9rzR65CButXN7UQHiiHJ.zFBmVPYvqtmnVoaP6pS', '+375297777777', a.id, b.id
 FROM departments a, PCs b
 WHERE a.name = 'HRDepartment' AND b.inventoryNumber = '1';
 
-INSERT INTO employees(firstName, phoneNumber, department_id, pc_id)
-SELECT 'Alex', '+375296666666', a.id, b.id
+INSERT INTO employees(firstName, password, phoneNumber, department_id, pc_id)
+SELECT 'Alex','$2a$04$QQ.TUVpwMu4Qt9rzR65CButXN7UQHiiHJ.zFBmVPYvqtmnVoaP6pS', '+375296666666', a.id, b.id
 FROM departments a, PCs b
 WHERE a.name = 'ProgrammerDepartment' AND b.inventoryNumber = '2';
 

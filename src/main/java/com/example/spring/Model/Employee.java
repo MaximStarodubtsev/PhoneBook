@@ -26,6 +26,8 @@ public class Employee {
     @Column
     private String firstname;
     @Column
+    private String password;
+    @Column
     private String lastname;
     @Column
     private String patronymicname;
