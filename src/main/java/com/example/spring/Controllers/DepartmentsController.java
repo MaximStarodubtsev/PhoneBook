@@ -3,16 +3,12 @@ package com.example.spring.Controllers;
 import com.example.spring.DTO.DepartmentDTO;
 import com.example.spring.Model.Department;
 import com.example.spring.Service.DepartmentService;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +30,7 @@ public class DepartmentsController {
             Pageable pageable = PageRequest.of(page, 2);
             List<DepartmentDTO> list = departmentService.findPage(pageable);
             return (list!= null)&&(!list.isEmpty())? list : "No data";
+
         } catch (Exception e) {
             return "Invalid data";
         }

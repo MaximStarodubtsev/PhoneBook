@@ -6,6 +6,7 @@ import com.example.spring.DTO.MapperDTO;
 import com.example.spring.Model.Employee;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -46,9 +47,13 @@ public class EmployeeService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return employeeRepository.findByPhonenumber(username)
-                .map(user->new User(user.getPhonenumber(),
+        User emp = findByPhone(username)
+                .map(user -> new User(user.getPhonenumber(),
                         user.getPassword(),
-                        user.getRoles())).orElseThrow(()->new UsernameNotFoundException("Failed to retrive user:" + username));
+                        user.getRoles())).orElseThrow(() -> new UsernameNotFoundException("Failed to retrive user:" + username));
+        System.out.println(emp);
+        return emp;
+
     }
+
 }
