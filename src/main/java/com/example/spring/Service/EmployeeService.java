@@ -51,7 +51,6 @@ public class EmployeeService implements UserDetailsService {
                 .map(user -> new User(user.getPhonenumber(),
                         user.getPassword(),
                         user.getRoles())).orElseThrow(() -> new UsernameNotFoundException("Failed to retrive user:" + username));
-        System.out.println(emp);
         return emp;
 
     }

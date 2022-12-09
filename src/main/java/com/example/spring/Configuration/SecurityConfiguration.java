@@ -23,7 +23,7 @@ public class SecurityConfiguration{
                 .authorizeHttpRequests(url->url
                         .requestMatchers("/pcs/delete/**","pcs/add/**", "/departments/delete/**",
                                 "/departments/add/**", "/roles/**",
-                                "/employees/delete/**", "/employees/add/**").hasRole("Admin")
+                                "/employees/delete/**", "/employees/add/**").hasAuthority("Admin")
                         .requestMatchers("/login", "/employees/registration/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin()
