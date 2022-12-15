@@ -19,6 +19,7 @@ import java.util.Optional;
 @ResponseBody
 public class PCsController {
 
+    private final static String errorMessage = "Invalid data or system error";
     private final PCService pcService;
 
     @GetMapping("/{id}")
@@ -28,7 +29,7 @@ public class PCsController {
             List<PCDTO> list = pcService.findPage(page);
             return (list!=null)&&(!list.isEmpty())?list:"No data";
         } catch (Exception e){
-            return "Invalid data";
+            return errorMessage;
         }
     }
 
@@ -46,7 +47,7 @@ public class PCsController {
                     .build());
             return "";
         } catch (Exception e){
-            return "Invalid data";
+            return errorMessage;
         }
     }
 
@@ -56,7 +57,7 @@ public class PCsController {
             pcService.deleteByInvNum(invNum);
             return "";
         } catch (Exception e){
-            return "Invalid data";
+            return errorMessage;
         }
     }
 }

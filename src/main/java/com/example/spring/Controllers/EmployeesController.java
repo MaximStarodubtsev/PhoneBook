@@ -28,6 +28,7 @@ import java.util.Optional;
 @ResponseBody
 public class EmployeesController {
 
+    private final static String errorMessage = "Invalid data or system error";
     private final EmployeeService employeeService;
     private final DepartmentService departmentService;
     private final PCService pcService;
@@ -41,7 +42,7 @@ public class EmployeesController {
             List<EmployeeDTO> list = employeeService.findPage(pageable);
             return (list!=null)&&(!list.isEmpty())? list : "No data";
         } catch (Exception e){
-            return "Invalid data";
+            return errorMessage;
         }
     }
 
@@ -49,7 +50,7 @@ public class EmployeesController {
     public String addingEmployee(@PathVariable("firstName") @Size(max=136) String firstName,
                                @PathVariable("lastName") @Size(max=136) String lastName,
                                @PathVariable("patName") @Size(max=136) String patName,
-                               @PathVariable("password") @Size(max=136) @NotEmpty @NotNull String password,
+                               @PathVariable("password") @Size(max=136) @NotEmpty @NotNull Object password,
                                @PathVariable("gender") @Size(max=136) String gender,
                                @PathVariable("phoneNum") @Size(max=136) @NotEmpty @NotNull String phoneNum,
                                @PathVariable("depName")  String depName,
@@ -61,11 +62,11 @@ public class EmployeesController {
             Optional<PC> pc = pcService.findByInvNum(pcInvNum);
             Optional<Role> role = roleService.findByName(roleName);
             if (department.isPresent() && pc.isPresent() && role.isPresent() ) {
-                password = passwordEncoder.encode(password);
+                password = passwordEncoder.encode(password.toString());
                 Employee employee = Employee.builder()
                         .firstname(firstName)
                         .lastname(lastName)
-                        .password(password)
+                        .password(password.toString())
                         .patronymicname(patName)
                         .gender(gender)
                         .phonenumber(phoneNum)
@@ -78,7 +79,7 @@ public class EmployeesController {
                 throw new Exception();
             }
         } catch (Exception exception){
-            return "Invalid data";
+            return errorMessage;
         }
         return "";
     }
@@ -89,7 +90,7 @@ public class EmployeesController {
             employeeService.delete(phoneNum);
             return "";
         } catch (Exception e) {
-            return "Invalid data";
+            return errorMessage;
         }
     }
 }

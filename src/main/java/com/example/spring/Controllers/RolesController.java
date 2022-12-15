@@ -19,6 +19,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @ResponseBody
 public class RolesController {
+
+    private final static String errorMessage = "Invalid data or system error";
     private final RoleService roleService;
 
     @GetMapping("/{page}")
@@ -28,7 +30,7 @@ public class RolesController {
             List<RoleDTO> list = roleService.findPage(pageable);
             return (list!=null)&&(!list.isEmpty())?list:"No data";
         } catch (Exception e){
-            return "Invalid data";
+            return errorMessage;
         }
     }
 
@@ -38,7 +40,7 @@ public class RolesController {
             roleService.saveAndFlush(Role.builder().name(name).build());
             return "";
         } catch (Exception e){
-            return "Invalid data";
+            return errorMessage;
         }
     }
 
@@ -48,7 +50,7 @@ public class RolesController {
             roleService.delete(name);
             return "";
         }catch (Exception e){
-            return "Invalid data";
+            return errorMessage;
         }
     }
 }

@@ -22,6 +22,7 @@ import java.util.Optional;
 @Validated
 public class DepartmentsController {
 
+    private final static String errorMessage = "Invalid data or system error";
     private final DepartmentService departmentService;
 
     @GetMapping("/{page}")
@@ -32,7 +33,7 @@ public class DepartmentsController {
             return (list!= null)&&(!list.isEmpty())? list : "No data";
 
         } catch (Exception e) {
-            return "Invalid data";
+            return errorMessage;
         }
     }
 
@@ -42,7 +43,7 @@ public class DepartmentsController {
             departmentService.saveAndFlush(Department.builder().name(name).build());
             return "";
         } catch (Exception e){
-            return "Invalid data";
+            return errorMessage;
         }
     }
 
@@ -54,10 +55,10 @@ public class DepartmentsController {
                 departmentService.delete(department.get());
                 return "";
             } else {
-                return "Invalid data";
+                return errorMessage;
             }
         } catch (Exception e){
-            return "Invalid data\n";
+            return errorMessage;
         }
     }
 }
