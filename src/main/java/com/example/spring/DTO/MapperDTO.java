@@ -5,10 +5,6 @@ import com.example.spring.Model.Employee;
 import com.example.spring.Model.PC;
 import com.example.spring.Model.Role;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 public class MapperDTO {
     public static DepartmentDTO departmentDTOMap(Department department){
         return DepartmentDTO.builder()
@@ -40,7 +36,6 @@ public class MapperDTO {
                 .phoneNum(employee.getPhonenumber())
                 .pc(pcDTOMap(employee.getPc()))
                 .department(departmentDTOMap(employee.getDepartment()))
-                .roles(employee.getRoles().stream().map(MapperDTO::roleDTOMap).collect(Collectors.toList()))
                 .build();
     }
 

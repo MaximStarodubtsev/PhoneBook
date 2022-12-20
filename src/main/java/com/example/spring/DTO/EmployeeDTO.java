@@ -2,8 +2,6 @@ package com.example.spring.DTO;
 
 import lombok.Builder;
 
-import java.util.List;
-
 @Builder
 public record EmployeeDTO (String firstName,
                            String lastName,
@@ -11,6 +9,5 @@ public record EmployeeDTO (String firstName,
                            String gender,
                            String phoneNum,
                            DepartmentDTO department,
-                           PCDTO pc,
-                           List<RoleDTO> roles){
+                           PCDTO pc){
 }

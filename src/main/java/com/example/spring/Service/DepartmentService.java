@@ -21,7 +21,8 @@ public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
 
-    public void delete(Department department) {departmentRepository.delete(department);}
+    public void delete(Department department) {
+        departmentRepository.delete(department);}
 
     public List<DepartmentDTO> findPage (Pageable page){
         Optional<List<Department>> departments = departmentRepository.findAllBy(page);

@@ -9,9 +9,16 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedEntityGraph(name = "withDepartmentAndPCAndRoles",
+        attributeNodes = {
+                @NamedAttributeNode("pc"),
+                @NamedAttributeNode("department"),
+                @NamedAttributeNode("roles")
+        }
+)
 @Entity
 @Component
-@ToString(exclude = "roles")
+@ToString(exclude = {"roles", "department", "pc"})
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 @Data
 @Builder

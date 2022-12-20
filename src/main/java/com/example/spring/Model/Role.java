@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedEntityGraph(name = "RoleWithEmployees",
+        attributeNodes = {
+                @NamedAttributeNode("employees")
+        }
+)
 @Entity
 @Component
 @ToString(exclude = "employees")

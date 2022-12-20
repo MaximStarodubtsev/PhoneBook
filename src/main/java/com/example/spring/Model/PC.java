@@ -9,6 +9,11 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+@NamedEntityGraph(name = "withEmployee",
+        attributeNodes = {
+                @NamedAttributeNode("employee")
+        }
+)
 @Entity
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)

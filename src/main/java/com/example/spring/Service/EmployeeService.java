@@ -5,6 +5,7 @@ import com.example.spring.DTO.EmployeeDTO;
 import com.example.spring.DTO.MapperDTO;
 import com.example.spring.Model.Employee;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -33,8 +34,9 @@ public class EmployeeService implements UserDetailsService {
                 .collect(Collectors.toList())).orElse(null);
     }
 
-    public Optional<Employee> findByPhone(String phoneNumber){
-        return employeeRepository.findByPhonenumber(phoneNumber);
+    public EmployeeDTO findByPhone(String phoneNumber){
+        Optional<Employee> employee = employeeRepository.findByPhonenumber(phoneNumber);
+        return employee.map(MapperDTO::employeeDTOMap).orElse(null);
     }
 
     public void saveOrUpdate(Employee employee){
@@ -47,7 +49,7 @@ public class EmployeeService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User emp = findByPhone(username)
+        User emp = employeeRepository.findByPhonenumber(username)
                 .map(user -> new User(user.getPhonenumber(),
                         user.getPassword(),
                         user.getRoles())).orElseThrow(() -> new UsernameNotFoundException("Failed to retrive user:" + username));

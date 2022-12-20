@@ -9,6 +9,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@NamedEntityGraph(name="withEmployees",
+        attributeNodes = {
+            @NamedAttributeNode("employees")
+        }
+)
 @Entity
 @Component
 @EqualsAndHashCode(of = "name")
