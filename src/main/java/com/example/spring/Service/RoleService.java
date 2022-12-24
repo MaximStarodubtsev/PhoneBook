@@ -20,6 +20,7 @@ public class RoleService {
 
     private final RoleRepository roleRepository;
 
+    @Transactional(readOnly = true)
     public Optional<Role> findByName(String name){
         return roleRepository.findByName(name);
     }
@@ -31,6 +32,8 @@ public class RoleService {
     public  void delete(String name){
         roleRepository.deleteByName(name);
     }
+
+    @Transactional(readOnly = true)
     public List<RoleDTO> findPage (Pageable pageable){
         Optional<List<Role>> roles =roleRepository.findAllBy(pageable);
         return roles.map(list->list.stream()

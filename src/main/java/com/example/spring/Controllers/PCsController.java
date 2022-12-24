@@ -7,11 +7,9 @@ import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/pcs")
@@ -39,7 +37,7 @@ public class PCsController {
                          @PathVariable("RAM") @Size(max=136) String RAM,
                          @PathVariable("invNum") @Size(max=136) @NotNull @NotEmpty String invNum){
         try {
-            pcService.saveAndFlush(PC.builder()
+            pcService.save(PC.builder()
                     .model(model)
                     .hdd(HDD)
                     .ram(RAM)

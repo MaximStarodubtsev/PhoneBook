@@ -1,22 +1,17 @@
 package com.example.spring;
 
 import com.example.spring.Model.Department;
-import com.example.spring.Model.Employee;
 import com.example.spring.Model.PC;
-import com.example.spring.Model.Role;
 import com.example.spring.Service.DepartmentService;
 import com.example.spring.Service.EmployeeService;
 import com.example.spring.Service.PCService;
 import com.example.spring.Service.RoleService;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
@@ -47,7 +42,7 @@ class PhoneBookApplicationTests {
 				.inventorynumber("3")
 				.build();
 
-		pcService.saveAndFlush(pc);
+		pcService.save(pc);
 		Assertions.assertTrue(pcService.findByInvNum("3").isPresent());
 	}
 

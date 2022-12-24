@@ -27,6 +27,7 @@ public class EmployeeService implements UserDetailsService {
 
     private final EmployeeRepository employeeRepository;
 
+    @Transactional(readOnly = true)
     public List<EmployeeDTO> findPage(Pageable page){
         Optional<List<Employee>> employees = employeeRepository.findAllBy(page);
         return employees.map(list -> list.stream()
@@ -34,6 +35,7 @@ public class EmployeeService implements UserDetailsService {
                 .collect(Collectors.toList())).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     public EmployeeDTO findByPhone(String phoneNumber){
         Optional<Employee> employee = employeeRepository.findByPhonenumber(phoneNumber);
         return employee.map(MapperDTO::employeeDTOMap).orElse(null);

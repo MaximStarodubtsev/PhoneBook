@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class PCService {
     private final PCRepository pcRepository;
 
+    @Transactional(readOnly = true)
     public List<PCDTO> findPage(Pageable page){
         Optional<List<PC>> pcs = pcRepository.findAllBy(page);
         return pcs.map(list->list.stream()
@@ -30,10 +31,11 @@ public class PCService {
         pcRepository.deleteByInventorynumber(invNum);
     }
 
-    public void saveAndFlush(PC pc){
+    public void save(PC pc){
         pcRepository.saveAndFlush(pc);
     }
 
+    @Transactional(readOnly = true)
     public Optional<PC> findByInvNum(String invNum){
         return pcRepository.findByInventorynumber(invNum);
     }

@@ -24,6 +24,7 @@ public class DepartmentService {
     public void delete(Department department) {
         departmentRepository.delete(department);}
 
+    @Transactional(readOnly = true)
     public List<DepartmentDTO> findPage (Pageable page){
         Optional<List<Department>> departments = departmentRepository.findAllBy(page);
         return departments.map(list->list.stream()
@@ -31,6 +32,7 @@ public class DepartmentService {
                 .collect(Collectors.toList())).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Department> findByName(String name){
         return departmentRepository.findByName(name);
     }
